@@ -1,5 +1,6 @@
 ﻿using Api.Dtos.Dependent;
 using Api.Models;
+using Api.Data;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -9,17 +10,28 @@ namespace Api.Controllers;
 [Route("api/v1/[controller]")]
 public class DependentsController : ControllerBase
 {
+    private static List<Dependent> dependents = new List<Dependent>();
     [SwaggerOperation(Summary = "Get dependent by id")]
     [HttpGet("{id}")]
-    public async Task<ActionResult<ApiResponse<GetDependentDto>>> Get(int id)
+    public async Task<ActionResult<ApiResponse<GetDependentDto>>> GetDependents(int id)
     {
-        throw new NotImplementedException();
+        var dependent = dependents.FirstOrDefault(x => x.Id == id);
+        if (dependent == null)
+        {
+            return NotFound();
+        }
+        return Ok(dependent);
     }
 
     [SwaggerOperation(Summary = "Get all dependents")]
     [HttpGet("")]
-    public async Task<ActionResult<ApiResponse<List<GetDependentDto>>>> GetAll()
+    public Task<ActionResult<ApiResponse<List<GetDependentDto>>>> GetAllDependents()
     {
-        throw new NotImplementedException();
+        var dependents = DataContext.Data.Where(e => e.Dependents.Any()).SelectMany(e => e.Dependents);
+
+        return Task.FromResult<ActionResult<ApiResponse<List<GetDependentDto>>>>
+        (
+            dependents == null ? NotFound() : Ok(dependents)
+        );
     }
 }

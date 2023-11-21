@@ -6,7 +6,7 @@ The goal is to respect your time, avoid live coding, and get a sense for how you
 
 # Coding Challenge
 
-**Show us how you work.**
+**Challenge from Paige Yorkman**
 
 Each of our Paylocity product teams operates like a small startup, empowered to deliver business value in
 whatever way they see fit. Because our teams are close knit and fast moving it is imperative that you are able
